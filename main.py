@@ -7,9 +7,9 @@ import selenium.webdriver as webdriver
 import time
 from email.message import EmailMessage
 import smtplib
-from conf import query, num_page, receiver
+from conf import query, num_page, receiver, e_login, e_password
 
-query_link = f"https://www.semanticscholar.org/search?q={query}&sort=relevance&page="
+query_link = f"https://www.semanticscholar.org/search?q={query}&page="
 
 # working paths
 working_dir = os.path.dirname(os.path.realpath(__file__))
