@@ -9,7 +9,7 @@ from email.message import EmailMessage
 import smtplib
 from conf import query, num_page, receiver
 
-query_link = f"https://www.researchgate.net/search/publication?q={query}&page="
+query_link = f"https://www.semanticscholar.org/search?q={query}&sort=relevance&page="
 
 # working paths
 working_dir = os.path.dirname(os.path.realpath(__file__))
@@ -31,6 +31,7 @@ links_list = [query_link + str(page+1) for page in range(num_page)]   # create l
 driver = webdriver.Chrome(executable_path=webdriver_path, chrome_options=chrome_options)
 
 final_info = []   # empty dictionary for articles info
+
 for search_link in links_list:
     # get all links to articles from the page
     driver.get(search_link)
