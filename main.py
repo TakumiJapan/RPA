@@ -5,7 +5,6 @@ import pandas as pd
 from selenium.webdriver.chrome.options import Options
 import selenium.webdriver as webdriver
 import time
-from wcm import get_credentials
 from email.message import EmailMessage
 import smtplib
 from conf import query, num_page, receiver
