@@ -26,23 +26,29 @@ prefs = {"download.default_directory": folder_for_pdf, "download.prompt_for_down
 chrome_options.add_experimental_option('prefs', prefs)
 os.environ["webdriver.chrome.driver"] = webdriver_path   # 'webdriver' executable needs to be in PATH. Please see https://sites.google.com/a/chromium.org/chromedriver/home
 
-links_list = [query_link + str(page+1) for page in range(num_page)]   # create links to follow
+links_list = [query_link + str(page+1) for page in range(num_page)]  # create links to follow
 
-driver = webdriver.Chrome(executable_path=webdriver_path, chrome_options=chrome_options)
+driver = webdriver.Chrome(executable_path=webdriver_path, options=chrome_options)
 
 final_info = []   # empty dictionary for articles info
 
 for search_link in links_list:
     # get all links to articles from the page
+    iterator = 0
     driver.get(search_link)
     time.sleep(5)
-    articles = driver.find_elements_by_class_name("nova-legacy-o-stack__item")
-    
+    articles = driver.find_elements_by_xpath("//*[@data-selenium-selector='title-link']")
     articles_links = []
+    articles_dates = []
+    temp_dates = driver.find_elements_by_class_name('cl-paper-pubdates')
+    for data in temp_dates:
+        articles_dates.append(data.text)
+
     for article in articles:
         try:
-            link = article.find_element_by_css_selector("a.nova-legacy-e-link.nova-legacy-e-link--color-inherit.nova-legacy-e-link--theme-bare").get_attribute("href")
+            link = article.get_attribute("href")
             articles_links.append(link)
+
         except:
             pass
 
@@ -51,18 +57,20 @@ for search_link in links_list:
         tmp_info = {}
 
         driver.get(link)
-        text = driver.find_element_by_class_name("research-detail-header-section__ie11").text
 
+        title = driver.find_elements_by_xpath("//*[@data-selenium-selector='paper-detail-title']")[0].text
+        author = driver.find_elements_by_class_name('paper-meta-item')[0].text
         tmp_info.update({
-                        'title': text.split("\n")[0],
-                        'date' : text.split("\n")[1],   # TODO: might convert to datetime
-                        'authors': text.split("Authors:")[-1].replace("\n","; ")
+                        'title': title,
+                        'date' : articles_dates[iterator],   # TODO: might convert to datetime
+                        'authors': author
                         })
 
         # trying to download the article's doc
+
         try:
             initial_dir = os.listdir(folder_for_pdf)
-            driver.find_element_by_css_selector("span.nova-legacy-c-button__label.gtm-download-fulltext-btn-header").click()
+            driver.find_element_by_xpath("//*[@class='alternate-sources__dropdown-wrapper']").click()
             time.sleep(5)
 
             current_dir = os.listdir(folder_for_pdf)
@@ -77,6 +85,8 @@ for search_link in links_list:
         final_info.append(tmp_info.copy())
         time.sleep(2)
 
+        iterator +=1
+
 driver.quit()
 
 # write all info to excel
@@ -85,7 +95,7 @@ excel_path = os.path.join(working_dir, "data.xlsx")
 df.to_excel(excel_path, index=False)
 
 # create email
-login, password = get_credentials("HSE")   # could be setup manually
+login, password = e_login, e_password   # could be setup manually
 mail = EmailMessage()
 mail['From'] = login
 mail['To'] = receiver
