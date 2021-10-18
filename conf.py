@@ -1,5 +1,3 @@
-query = "Blockchain"
+query = "RPA impact"
 num_page = 2
-receiver = "futamata.takumi@gmail.com"
-e_login = ''
-e_password = ''
+receiver = "tfutamata@edu.hse.ru"
