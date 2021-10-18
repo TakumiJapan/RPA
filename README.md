@@ -9,7 +9,7 @@ The robot is used to automate the process of Semantic Scholar literature collect
 2. Robot creates links for each search results page
 3. Robot collects links to the articles from each page
 4. Robot scraps article's info and downloads source docs if available
-5. Robot writes all info to excel and sends email
+5. Robot writes all info to excel
 
 #### Contents
 
@@ -17,8 +17,7 @@ Write the robot for https://www.semanticscholar.org/ website.
 
 Robot functionality:
 * Search articles by specific topic on N pages
-* Get title, author, source, description, number of citations, article file (if available)
-Note, that you need to choose the topic with at least 1 file available for downloading.
+* Get title, author, number of citations, article file (if available)
 
 The final git repo should contain the following files:
 * readme.md with robot description
