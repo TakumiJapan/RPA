@@ -1,5 +1,5 @@
 # RPA Homework
-The robot is used to automate the process of Semantic Scholar literature collection for the user-defined topic. Result of the process is an email with attached excel with info about each found article.
+The robot is used to automate the process of Semantic Scholar literature collection for the user-defined topic. Result of the process is an excel with info about each found article.
 
 
 
