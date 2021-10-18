@@ -97,7 +97,7 @@ mail = EmailMessage()
 mail['From'] = login
 mail['To'] = receiver
 mail['Subject'] = "Topics analysis"
-mail.set_content("Hi!\n\nFind attached excel file with articles info.\n\nRegard,\nKerber Ekaterina ")
+mail.set_content("Hi!\n\nFind attached excel file with articles info.\n\nRegard,\nTakumi Futamata ")
 
 # add attachment
 with open(excel_path, 'rb') as f:
